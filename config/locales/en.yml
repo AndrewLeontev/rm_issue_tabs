@@ -1,1 +1,7 @@
 en:
+  label_rm_statuses_time_spent: 'Statuses spent time'
+  rm_time_statistics:
+    label_days: 'd.'
+    label_hours: 'h.'
+    label_minutes: 'm.'
+    label_seconds: 's.'

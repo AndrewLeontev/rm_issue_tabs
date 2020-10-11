@@ -1,0 +1,12 @@
+<% statuses_spent_time =  {
+    name: 'statuses_spent_time', label: :label_rm_statuses_time_spent,
+    onclick: "getRemoteTab('statuses_spent_time', '#{statuses_spent_time_path(@issue)}', '#{issue_path(@issue, :tab => 'statuses_spent_time')}')",
+    partial: 'rm_issue_tabs/statuses_spent_time',
+    locals: {:issue => @issue},
+    remote: true,
+} %>
+<script type="text/javascript" charset="utf-8">
+  $(document).ready(function () {
+    $('#history').html('<%= j render_tabs(issue_history_tabs + [statuses_spent_time], issue_history_default_tab).html_safe %>');
+  })
+</script>

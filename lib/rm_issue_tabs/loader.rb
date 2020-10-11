@@ -1,0 +1,1 @@
+require 'rm_issue_tabs/hooks/view_hooks'

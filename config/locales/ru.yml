@@ -1,1 +1,7 @@
 ru:
+  label_rm_statuses_time_spent: 'Время в каждом статусе'
+  rm_time_statistics:
+    label_days: 'д.'
+    label_hours: 'ч.'
+    label_minutes: 'м.'
+    label_seconds: 'с.'
