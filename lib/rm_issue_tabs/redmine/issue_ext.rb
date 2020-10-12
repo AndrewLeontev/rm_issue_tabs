@@ -37,6 +37,11 @@ module RmIssueTabs::Redmine
         Issue.rm_time_statistics_aggregate.where("#{Issue.table_name}.id = ?", self.id)
       end
 
+      def rm_time_statistic_last
+        @rm_time_statistic_last ||= self.journals.joins(:details).where("#{JournalDetail.table_name}.prop_key = 'status_id'").select("#{Journal.table_name}.created_on").order("#{Journal.table_name}.created_on DESC").first
+        @rm_time_statistic_last ||= RmIssueTimeStatistic.where(issue_id: self.id, status_id: self.status_id).select("#{RmIssueTimeStatistic.table_name}.created_at created_on").order("#{RmIssueTimeStatistic.table_name}.created_at DESC").first
+      end
+
       def save_time_statistics
         return if (self.new_record?)
         return unless self.status_id_changed?
@@ -49,6 +54,11 @@ module RmIssueTabs::Redmine
         date = self.created_on
         st = RmIssueTimeStatistic.where(issue_id: self.id).order("#{RmIssueTimeStatistic.table_name}.id DESC").first
         date = st.created_at if (st)
+
+        if self.status_id_changed? && self.status_id_was
+          st2 = RmIssueTimeStatistic.where(issue_id: self.id, status_id: self.status_id).order("#{RmIssueTimeStatistic.table_name}.id DESC").first
+          RmIssueTimeStatistic.create(issue_id: self.id, status_id: self.status_id, user_id: user, time: 0) unless st2.present?
+        end
 
         RmIssueTimeStatistic.create(issue_id: self.id, status_id: status, user_id: user, time: Time.now.utc - date)
       end

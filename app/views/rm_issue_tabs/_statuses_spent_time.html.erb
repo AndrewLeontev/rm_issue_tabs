@@ -8,9 +8,13 @@
     </thead>
     <tbody>
       <% @issue.rm_time_statistics_aggregate.each do |status| %>
+        <% total_time = status.avg_time * status.avg_count %>
+        <% if status.status_id.to_i == @issue.status_id  %>
+          <% total_time = total_time + (Time.now.utc - @issue.rm_time_statistic_last.created_on.to_datetime.utc) %>
+        <% end %>
         <tr>
           <td><%= status.status_name %></td>
-          <td><%= hourize(status.avg_time * status.avg_count) %></td>
+          <td><%= hourize(total_time) %></td>
         </tr>
       <% end %>
     </tbody>
